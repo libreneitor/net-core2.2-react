@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:5-alpine
+    ports:
+      - 127.0.0.1:6379:6379
+  api:
+    container_name: api
+    build:
+      context: ./AirportApi
+    ports:
+      - 127.0.0.1:8080:80
+    depends_on:
+      - redis
+  front:
+    container_name: front
+    build:
+      context: ./AirportReact
+    ports:
+      - 127.0.0.1:80:3000
+    depends_on:
+      - api
